@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Localização.com</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>Localização.com</h1>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="form">
+                <form action="/" method="post">
+                    <label>Informe um IP ou Domínio</label>
+                    <input type="text" id="query" name="query" required />
+                    <button type="submit">Consultar</button>
+                </form>
+            </div>
+
+            {% if erro %}
+            <p class="erro">{{ erro }}</p>
+            {% endif %}
+
+            {% if dados and dados.get('status') == 'success' %}
+            <div class="resultado">
+                <h1>Resultado da Consulta</h1>
+                <ul>
+                    <li><strong>IP:</strong> {{ dados['query'] }}</li>
+                    <li><strong>País:</strong> {{ dados['country'] }}</li>
+                    <li><strong>Região:</strong> {{ dados['regionName'] }}</li>
+                    <li><strong>Cidade:</strong> {{ dados['city'] }}</li>
+                    <li><strong>Latitude:</strong> {{ dados['lat'] }}</li>
+                    <li><strong>Longitude:</strong> {{ dados['lon'] }}</li>
+                    <li><strong>ISP:</strong> {{ dados['isp'] }}</li>
+                </ul>
+            </div>
+            {% elif dados %}
+            <p class="erro">Consulta inválida! Verifique o IP ou Domínio.</p>
+            {% endif %}
+        </div>
+    </main>
+</body>
+
+</html>
